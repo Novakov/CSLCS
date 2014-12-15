@@ -3,3 +3,7 @@ obj
 *.swp
 *.user
 *.suo
+TestResult.xml
+coverage.xml
+report
+results.xml
