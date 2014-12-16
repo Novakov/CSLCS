@@ -6,16 +6,16 @@ using System.Text;
 
 namespace CSL.Groups
 {
-     /// <summary>
-     /// Class that represents Queue.
-     /// It inherits class PureGroup.
-     /// </summary>
+    /// <summary>
+    /// Class that represents Queue.
+    /// It inherits class PureGroup.
+    /// </summary>
     public class QueueGroup : PureGroup
     {
         #region Members
 
         internal Queue<uint> m_queue;
-        private uint queueCount;        
+        private uint queueCount;
 
         #endregion
 
@@ -108,7 +108,7 @@ namespace CSL.Groups
             bool found = false;
 
             while (this.m_queue.Count > 0)
-            {                
+            {
                 tempElement = this.m_queue.First();
                 if (function(tempElement))
                 {
@@ -138,7 +138,7 @@ namespace CSL.Groups
                         m_queue.Enqueue(tempElement);
                     }
 
-                        return found;
+                    return found;
                 }
             }
 
@@ -150,7 +150,7 @@ namespace CSL.Groups
             this.m_queue.Enqueue(element);
             currentCount = m_queue.Count;
         }
-        
+
         public override void From(uint element)
         {
             Queue<uint> tempQueue = new Queue<uint>();
@@ -174,7 +174,7 @@ namespace CSL.Groups
             }
 
             currentCount = m_queue.Count;
-                
+
         }
 
         public override int Loses(PureGroup group)
@@ -204,20 +204,20 @@ namespace CSL.Groups
             catch (Exception)
             {
                 return 0;
-            }            
+            }
         }
 
         public override int Gains(PureGroup group)
-        {            
+        {
             try
-            {                
+            {
                 QueueGroup groupToAdd = new QueueGroup();
                 groupToAdd = group as QueueGroup;
                 List<uint> listToAdd = new List<uint>();
                 listToAdd = groupToAdd.m_queue.ToList();
                 List<uint> targetList = new List<uint>();
                 targetList = this.m_queue.ToList();
-               
+
                 foreach (uint element in listToAdd)
                 {
                     bool exists = false;
@@ -237,7 +237,7 @@ namespace CSL.Groups
                     {
                         targetList.Add(element);
                         this.m_queue.Enqueue(element);
-                    }                    
+                    }
                 }
 
                 return 1;
@@ -245,7 +245,7 @@ namespace CSL.Groups
             catch (Exception)
             {
                 return 0;
-            }            
+            }
         }
 
         public override int Converse(PureGroup group)
@@ -263,12 +263,12 @@ namespace CSL.Groups
                     }
                 }
 
-                    return 1;
+                return 1;
             }
             catch (Exception)
             {
                 return 0;
-            }            
+            }
         }
 
         public override int In(uint j)
@@ -292,8 +292,8 @@ namespace CSL.Groups
             }
             else
             {
-                return 0;    
-            }                        
+                return 0;
+            }
         }
 
         public override int NotIn(uint j)
@@ -408,7 +408,7 @@ namespace CSL.Groups
             else
             {
                 return 0;
-            }            
+            }
         }
 
         public override int Head(uint j)
@@ -444,7 +444,7 @@ namespace CSL.Groups
             else
             {
                 return 0;
-            }            
+            }
         }
 
         public override int Tail(uint j)
@@ -470,7 +470,7 @@ namespace CSL.Groups
             else
             {
                 return 0;
-            } 
+            }
         }
 
         /// <summary>
@@ -501,7 +501,7 @@ namespace CSL.Groups
         {
             try
             {
-                List<uint> temp = m_queue.ToList(); 
+                List<uint> temp = m_queue.ToList();
 
                 foreach (uint element in temp)
                 {
@@ -524,7 +524,7 @@ namespace CSL.Groups
             catch (Exception)
             {
                 return 0;
-            }            
+            }
         }
 
         /// <summary>
@@ -542,7 +542,7 @@ namespace CSL.Groups
             {
                 foreach (uint element in targetList)
                 {
-                    sum += groupDelegate((uint)targetList.IndexOf(element));                
+                    sum += groupDelegate((uint)targetList.IndexOf(element));
                 }
 
                 return sum;
@@ -550,7 +550,7 @@ namespace CSL.Groups
             catch (Exception)
             {
                 return -1;
-            }            
+            }
         }
 
         /// <summary>
@@ -582,12 +582,12 @@ namespace CSL.Groups
                 else
                 {
                     return -1;
-                }                    
+                }
             }
             catch (Exception)
             {
                 return -1;
-            }               
+            }
         }
 
         public override int Count(PureGroup.PBoolDelegate groupDelegate)
@@ -604,7 +604,7 @@ namespace CSL.Groups
                 index++;
             }
 
-            return count;            
+            return count;
         }
 
         /// <summary>
@@ -651,31 +651,20 @@ namespace CSL.Groups
         /// <returns>Returns 1 if all elements met condition, otherwise 0.</returns>
         public override int All(PureGroup.PBoolDelegate pureGroupDelegate)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-
-            try
+            if (this.m_queue.All(x => pureGroupDelegate(x)))
             {
-                foreach (uint element in targetList)
-                {
-                    if (!pureGroupDelegate((uint)targetList.IndexOf(element)))
-                    {
-                        return 0;
-                    }
-                }
+                return 1;
             }
-            catch (Exception)
+            else
             {
                 return 0;
             }
-
-            return 1;
         }
 
         public override int Rank(PureGroup.PValDelegate groupDelegate)
         {
             List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();            
+            targetList = this.m_queue.ToList();
             List<long> tempList = new List<long>();
             try
             {
@@ -710,6 +699,6 @@ namespace CSL.Groups
             {
                 return 0;
             }
-        }     
+        }
     }
 }
