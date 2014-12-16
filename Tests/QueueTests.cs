@@ -183,5 +183,32 @@ namespace Tests
             // assert
             Assert.That(invocationCount, Is.EqualTo(4));
         }
+
+        [Test]
+        public void EmptyShoudReturnOneForEmptyQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+         
+            // act
+            var result = group.Empty();
+
+            // assert
+            Assert.That(result, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void EmptyShoudReturnZeroForNonEmptyQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(4);
+
+            // act
+            var result = group.Empty();
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
     }
 }
