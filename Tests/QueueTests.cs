@@ -1,4 +1,5 @@
-﻿using CSL.Groups;
+﻿using System.Collections.Generic;
+using CSL.Groups;
 using NUnit.Framework;
 
 namespace Tests
@@ -17,7 +18,7 @@ namespace Tests
             group.To(8);
 
             // act
-            var result = group.All(x => x%2 == 0);
+            var result = group.All(x => x % 2 == 0);
 
             // assert
             Assert.That(result, Is.EqualTo(1));
@@ -158,6 +159,29 @@ namespace Tests
 
             // assert
             Assert.That(result, Is.EqualTo(24));
+        }
+
+        [Test]
+        public void ForShouldInvokeActionForEachElement()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            int invocationCount = 0;
+
+            // act
+            var result = group.For(x =>
+            {
+                invocationCount++;
+                return true;
+            });
+
+            // assert
+            Assert.That(invocationCount, Is.EqualTo(4));
         }
     }
 }

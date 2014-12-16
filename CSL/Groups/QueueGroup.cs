@@ -480,21 +480,12 @@ namespace CSL.Groups
         /// <returns>1 if success, 0 otherwise.</returns>
         public override int For(PureGroup.PBoolDelegate pureGroupDelegate)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
+            foreach (uint element in this.m_queue)
+            {
+                pureGroupDelegate(element);
+            }
 
-            try
-            {
-                foreach (uint element in targetList)
-                {
-                    pureGroupDelegate(element);
-                }
-                return 1;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
+            return 1;
         }
 
         public override int Split(PureGroup.PBoolDelegate f1, ref PureGroup group1, ref PureGroup group2, PureGroup.PBoolDelegate f2)
