@@ -561,32 +561,14 @@ namespace CSL.Groups
         /// <returns>1 if number of elements that match the condition is j, otherwise -1.</returns>
         public override int Unique(uint j, PureGroup.PBoolDelegate groupDelegate)
         {
-            uint uniqueElementsCount = 0;
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-
-            try
+            var count = this.Count(groupDelegate);
+            if (count == j)
             {
-                foreach (uint element in targetList)
-                {
-                    if (groupDelegate(element))
-                    {
-                        uniqueElementsCount++;
-                    }
-                }
-
-                if (uniqueElementsCount == j)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return -1;
-                }
+                return 1;
             }
-            catch (Exception)
+            else
             {
-                return -1;
+                return 0;
             }
         }
 

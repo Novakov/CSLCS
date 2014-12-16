@@ -24,6 +24,24 @@ namespace Tests
         }
 
         [Test]
+        public void AllShouldReturnZeroWhenNotAllElementsMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+            group.To(9);
+
+            // act
+            var result = group.All(x => x % 2 == 0);
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
         public void CountShouldReturnCountOfElementsThatMeetCondition()
         {
             // arrange
@@ -69,6 +87,57 @@ namespace Tests
 
             // act
             var result = group.Exists(3, x => x > 4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void UniqueShouldReturnOneIfExactNumberOfElementMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Unique(2, x => x > 4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void UniqueShouldReturnZeroIfMoreNumberOfElementMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Unique(1, x => x > 4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void UniqueShouldReturnZeroIfLessNumberOfElementMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Unique(3, x => x > 4);
 
             // assert
             Assert.That(result, Is.EqualTo(0));
