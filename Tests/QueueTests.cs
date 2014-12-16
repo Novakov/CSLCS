@@ -309,5 +309,56 @@ namespace Tests
             // assert
             Assert.That(group.In(6), Is.EqualTo(0));
         }
+
+        [Test]
+        public void FindFirstShouldReturnFirstElement()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            uint element = 0;
+            var result = group.Find(ref element, FindParameters.FIRST);
+
+            // assert
+            Assert.That(result, Is.True);
+            Assert.That(element, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void FindShouldReturnZeroWhenQueueIsEmpty()
+        {
+            // arrange
+            var group = new QueueGroup(5);          
+
+            // act
+            uint element = 0;
+            var result = group.Find(ref element, FindParameters.FIRST);
+
+            // assert
+            Assert.That(result, Is.False);            
+        }
+
+        [Test]
+        public void FindShouldReturnZeroWhenNoElementMatchesCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            uint element = 0;
+            var result = group.Find(ref element, FindParameters.FIRST, x => x > 10);
+
+            // assert
+            Assert.That(result, Is.False);
+        }
     }
 }

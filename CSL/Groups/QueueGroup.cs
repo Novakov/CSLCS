@@ -88,62 +88,22 @@ namespace CSL.Groups
         /// <returns></returns>
         public override bool Find(ref uint element, FindParameters parameter)
         {
-            bool found = false;
-
-            if (this.m_queue.Count > 0)
-            {
-                // element = m_queue.Dequeue();
-                element = this.m_queue.First();
-                found = true;
-            }
-
-            return found;
+            return this.Find(ref element, parameter, x => true);
         }
 
 
         public override bool Find(ref uint element, FindParameters parameter, PureGroup.PBoolDelegate function)
         {
-            Queue<uint> tempQueue = new Queue<uint>();
-            uint tempElement;
-            bool found = false;
-
-            while (this.m_queue.Count > 0)
+            foreach (var el in m_queue)
             {
-                tempElement = this.m_queue.First();
-                if (function(tempElement))
+                if (function(el))
                 {
-                    found = true;
-                }
-                else
-                {
-                    tempQueue.Enqueue(tempElement);
-                    m_queue.RemoveAt(0);
-                }
-
-                if (found)
-                {
-                    element = tempElement;
-
-                    int count = m_queue.Count;
-                    for (int i = 0; i < count; i++)
-                    {
-                        tempElement = m_queue[0];
-                        m_queue.RemoveAt(0);
-                        tempQueue.Enqueue(tempElement);
-                    }
-
-                    count = tempQueue.Count;
-                    for (int j = 0; j < count; j++)
-                    {
-                        tempElement = tempQueue.Dequeue();
-                        m_queue.Add(tempElement);
-                    }
-
-                    return found;
+                    element = el;
+                    return true;
                 }
             }
 
-            return found;
+            return false;
         }
 
         public override void To(uint element)
