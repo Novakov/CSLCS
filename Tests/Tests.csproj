@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="StatCRectTests.cs" />
     <Compile Include="StatDTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
