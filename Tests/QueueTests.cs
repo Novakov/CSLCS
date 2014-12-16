@@ -244,5 +244,39 @@ namespace Tests
             // assert
             Assert.That(result, Is.EqualTo(0));
         }
+
+        [Test]
+        public void NotInShouldReturnZeroIfElementBelongsToGroup()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.NotIn(4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void NotInShouldReturnOneIfElementDoesNotBelongToGroup()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.NotIn(5);
+
+            // assert
+            Assert.That(result, Is.EqualTo(1));
+        }
     }
 }
