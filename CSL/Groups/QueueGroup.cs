@@ -273,19 +273,7 @@ namespace CSL.Groups
 
         public override int In(uint j)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-            bool isIn = false;
-            uint elementToCheck = j;
-
-            foreach (uint element in targetList)
-            {
-                if (element == elementToCheck)
-                {
-                    isIn = true;
-                }
-            }
-
+            bool isIn = this.m_queue.Any(x => x == j);
             if (isIn)
             {
                 return 1;
