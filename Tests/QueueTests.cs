@@ -278,5 +278,19 @@ namespace Tests
             // assert
             Assert.That(result, Is.EqualTo(1));
         }
+
+        [Test]
+        public void ZeroShouldClearQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(4);
+
+            // act
+            group.Zero();
+
+            // assert
+            Assert.That(group.Empty(), Is.EqualTo(1));
+        }
     }
 }
