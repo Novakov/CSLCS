@@ -603,33 +603,17 @@ namespace CSL.Groups
         /// <returns>1 if at least j elements match condition, -1 othwerwise.</returns>
         public override int Exists(uint j, PureGroup.PBoolDelegate groupDelegate)
         {
-            uint uniqueElementsCount = 0;
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-
-            try
+            foreach (var element in this.m_queue)
             {
-                foreach (uint element in targetList)
+                if (groupDelegate(element))
                 {
-                    if (groupDelegate(element))
-                    {
-                        uniqueElementsCount++;
-                    }
+                    j--;
                 }
 
-                if (uniqueElementsCount >= j)
-                {
-                    return 1;
-                }
-                else
-                {
-                    return -1;
-                }
+                if (j == 0) return 1;
             }
-            catch (Exception)
-            {
-                return -1;
-            }
+
+            return 0;
         }
 
         /// <summary>

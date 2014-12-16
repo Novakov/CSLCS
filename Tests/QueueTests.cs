@@ -39,5 +39,39 @@ namespace Tests
             // assert
             Assert.That(result, Is.EqualTo(2));
         }
+
+        [Test]
+        public void ExistsShouldReturnOneIfThereIsEnoughElementsThatMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Exists(2, x => x > 4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void ExistsShouldReturnZeroIfThereIsNotEnoughElementsThatMeetCondition()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Exists(3, x => x > 4);
+
+            // assert
+            Assert.That(result, Is.EqualTo(0));
+        }
     }
 }
