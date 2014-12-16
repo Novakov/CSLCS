@@ -534,23 +534,7 @@ namespace CSL.Groups
         /// <returns>Sum of all elements values or -1 if something goes wrong.</returns>
         public override long Sum(PureGroup.PValDelegate groupDelegate)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-            long sum = 0;
-
-            try
-            {
-                foreach (uint element in targetList)
-                {
-                    sum += groupDelegate((uint)targetList.IndexOf(element));
-                }
-
-                return sum;
-            }
-            catch (Exception)
-            {
-                return -1;
-            }
+            return this.m_queue.Sum(x => groupDelegate(x));
         }
 
         /// <summary>
