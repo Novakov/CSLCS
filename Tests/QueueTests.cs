@@ -189,7 +189,7 @@ namespace Tests
         {
             // arrange
             var group = new QueueGroup(5);
-         
+
             // act
             var result = group.Empty();
 
@@ -291,6 +291,23 @@ namespace Tests
 
             // assert
             Assert.That(group.Empty(), Is.EqualTo(1));
+        }
+
+        [Test]
+        public void FromShouldRemoveElementFromQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            group.From(6);
+
+            // assert
+            Assert.That(group.In(6), Is.EqualTo(0));
         }
     }
 }

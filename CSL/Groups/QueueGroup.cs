@@ -14,7 +14,7 @@ namespace CSL.Groups
     {
         #region Members
 
-        internal Queue<uint> m_queue;
+        internal List<uint> m_queue;
         private uint queueCount;
 
         #endregion
@@ -26,7 +26,7 @@ namespace CSL.Groups
         /// </summary>
         public QueueGroup()
         {
-            this.m_queue = new Queue<uint>();
+            this.m_queue = new List<uint>();
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace CSL.Groups
         public QueueGroup(uint count)
         {
             // m_queue = new List<object>(count);
-            this.m_queue = new Queue<uint>();
+            this.m_queue = new List<uint>();
             this.queueCount = count;
         }
 
@@ -68,7 +68,7 @@ namespace CSL.Groups
         {
             for (uint i = 0; i < this.queueCount; i++)
             {
-                this.m_queue.Enqueue(i);
+                this.m_queue.Add(i);
             }
         }
 
@@ -117,7 +117,7 @@ namespace CSL.Groups
                 else
                 {
                     tempQueue.Enqueue(tempElement);
-                    m_queue.Dequeue();
+                    m_queue.RemoveAt(0);
                 }
 
                 if (found)
@@ -127,7 +127,8 @@ namespace CSL.Groups
                     int count = m_queue.Count;
                     for (int i = 0; i < count; i++)
                     {
-                        tempElement = m_queue.Dequeue();
+                        tempElement = m_queue[0];
+                        m_queue.RemoveAt(0);
                         tempQueue.Enqueue(tempElement);
                     }
 
@@ -135,7 +136,7 @@ namespace CSL.Groups
                     for (int j = 0; j < count; j++)
                     {
                         tempElement = tempQueue.Dequeue();
-                        m_queue.Enqueue(tempElement);
+                        m_queue.Add(tempElement);
                     }
 
                     return found;
@@ -147,31 +148,13 @@ namespace CSL.Groups
 
         public override void To(uint element)
         {
-            this.m_queue.Enqueue(element);
+            this.m_queue.Add(element);
             currentCount = m_queue.Count;
         }
 
         public override void From(uint element)
         {
-            Queue<uint> tempQueue = new Queue<uint>();
-            uint tempElement;
-            int count = m_queue.Count;
-
-            for (int i = 0; i < count; i++)
-            {
-                tempElement = m_queue.Dequeue();
-                if (!(tempElement == element))
-                {
-                    tempQueue.Enqueue(tempElement);
-                }
-            }
-            count = tempQueue.Count;
-
-            for (int j = 0; j < count; j++)
-            {
-                tempElement = tempQueue.Dequeue();
-                m_queue.Enqueue(tempElement);
-            }
+            this.m_queue.Remove(element);
 
             currentCount = m_queue.Count;
 
@@ -196,7 +179,7 @@ namespace CSL.Groups
                 this.m_queue.Clear();
                 foreach (uint element in targetList)
                 {
-                    this.m_queue.Enqueue(element);
+                    this.m_queue.Add(element);
                 }
 
                 return 1;
@@ -236,7 +219,7 @@ namespace CSL.Groups
                     if (!exists)
                     {
                         targetList.Add(element);
-                        this.m_queue.Enqueue(element);
+                        this.m_queue.Add(element);
                     }
                 }
 
@@ -259,7 +242,7 @@ namespace CSL.Groups
                 {
                     if (!temp.m_queue.Contains(i))
                     {
-                        this.m_queue.Enqueue(i);
+                        this.m_queue.Add(i);
                     }
                 }
 
@@ -420,11 +403,11 @@ namespace CSL.Groups
                 this.m_queue.CopyTo(tempArray, 0);
 
                 this.m_queue.Clear();
-                this.m_queue.Enqueue(j);
+                this.m_queue.Add(j);
 
                 foreach (uint element in tempArray)
                 {
-                    this.m_queue.Enqueue(element);
+                    this.m_queue.Add(element);
                 }
 
                 return 1;
@@ -452,7 +435,7 @@ namespace CSL.Groups
 
             if (!elementExists)
             {
-                this.m_queue.Enqueue(j);
+                this.m_queue.Add(j);
                 return 1;
             }
             else
@@ -605,7 +588,7 @@ namespace CSL.Groups
                     {
                         if (element == targetElement)
                         {
-                            this.m_queue.Enqueue((uint)helpList.IndexOf(targetElement));
+                            this.m_queue.Add((uint)helpList.IndexOf(targetElement));
                         }
                     }
                 }
