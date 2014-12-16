@@ -360,5 +360,42 @@ namespace Tests
             // assert
             Assert.That(result, Is.False);
         }
+
+        [Test]
+        public void HeadShouldPlaceElementOnBeginingOfQueueIfItDoesNotBelongToQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            group.Head(5);
+            uint el = 0;
+            var result = group.Find(ref el, FindParameters.FIRST);
+
+            // assert
+            Assert.That(result, Is.True);
+            Assert.That(el, Is.EqualTo(5));
+        }
+
+        [Test]
+        public void TailShouldPlaceElementOnEndOfQueueIfItDoesNotBelongToQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            // act
+            var result = group.Tail(5);           
+
+            // assert
+            Assert.That(result, Is.EqualTo(1));
+        }
     }
 }

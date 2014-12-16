@@ -344,32 +344,9 @@ namespace CSL.Groups
 
         public override int Head(uint j)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-            bool elementExists = false;
-
-            foreach (uint element in targetList)
+            if (this.NotIn(j) == 1)
             {
-                if (element == j)
-                {
-                    elementExists = true;
-                    break;
-                }
-            }
-
-            if (!elementExists)
-            {
-                uint[] tempArray = new uint[this.m_queue.Count];
-                this.m_queue.CopyTo(tempArray, 0);
-
-                this.m_queue.Clear();
-                this.m_queue.Add(j);
-
-                foreach (uint element in tempArray)
-                {
-                    this.m_queue.Add(element);
-                }
-
+                this.m_queue.Insert(0, j);
                 return 1;
             }
             else
@@ -380,22 +357,9 @@ namespace CSL.Groups
 
         public override int Tail(uint j)
         {
-            List<uint> targetList = new List<uint>();
-            targetList = this.m_queue.ToList();
-            bool elementExists = false;
-
-            foreach (uint element in targetList)
+            if (this.NotIn(j) == 1)
             {
-                if (element == j)
-                {
-                    elementExists = true;
-                    break;
-                }
-            }
-
-            if (!elementExists)
-            {
-                this.m_queue.Add(j);
+             this.m_queue.Add(j);
                 return 1;
             }
             else
