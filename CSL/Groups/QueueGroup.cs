@@ -592,19 +592,7 @@ namespace CSL.Groups
 
         public override int Count(PureGroup.PBoolDelegate groupDelegate)
         {
-            int count = 0;
-            uint index = 0;
-            foreach (uint element in this.m_queue)
-            {
-                if (groupDelegate(index) == true)
-                {
-                    count++;
-                }
-
-                index++;
-            }
-
-            return count;
+            return this.m_queue.Count(x => groupDelegate(x));
         }
 
         /// <summary>
