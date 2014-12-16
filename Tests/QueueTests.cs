@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using CSL.Groups;
 using NUnit.Framework;
+using NUnit.Framework.Constraints;
 
 namespace Tests
 {
@@ -396,6 +397,50 @@ namespace Tests
 
             // assert
             Assert.That(result, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void LosesShouldRemoveElementsThatBelongsToGivenGroup()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            var other = new QueueGroup(2);
+            other.To(2);
+            other.To(6);
+            other.To(9);
+
+            // act
+            group.Loses(other);
+
+            // assert
+            Assert.That(group.In(2), Is.EqualTo(0));
+            Assert.That(group.In(6), Is.EqualTo(0));
+        }
+
+        [Test]
+        public void GainsShouldAddAllElementsThatNotAlreadyBelongToQueue()
+        {
+            // arrange
+            var group = new QueueGroup(5);
+            group.To(2);
+            group.To(4);
+            group.To(6);
+            group.To(8);
+
+            var other = new QueueGroup(2);
+            other.To(2);
+            other.To(9);
+
+            // act
+            group.Gains(other);
+
+            // assert
+            Assert.That(group.In(9), Is.EqualTo(1));            
         }
     }
 }

@@ -33,10 +33,8 @@ namespace CSL.Groups
         /// Constructor that takes count of members as argument.
         /// </summary>
         /// <param name="count"></param>
-        public QueueGroup(uint count)
-        {
-            // m_queue = new List<object>(count);
-            this.m_queue = new List<uint>();
+        public QueueGroup(uint count): this()
+        {            
             this.queueCount = count;
         }
 
@@ -122,73 +120,29 @@ namespace CSL.Groups
 
         public override int Loses(PureGroup group)
         {
-            try
+            var other = (QueueGroup) group;
+
+            foreach (var element in other.m_queue)
             {
-                QueueGroup groupToRemove = new QueueGroup();
-                groupToRemove = group as QueueGroup;
-                List<uint> listToRemove = new List<uint>();
-                listToRemove = groupToRemove.m_queue.ToList();
-                List<uint> targetList = new List<uint>();
-                targetList = this.m_queue.ToList();
-
-                foreach (uint element in listToRemove)
-                {
-                    targetList.Remove(element);
-                }
-
-                this.m_queue.Clear();
-                foreach (uint element in targetList)
-                {
-                    this.m_queue.Add(element);
-                }
-
-                return 1;
+                this.m_queue.Remove(element);
             }
-            catch (Exception)
-            {
-                return 0;
-            }
+
+            return 1;
         }
 
         public override int Gains(PureGroup group)
         {
-            try
-            {
-                QueueGroup groupToAdd = new QueueGroup();
-                groupToAdd = group as QueueGroup;
-                List<uint> listToAdd = new List<uint>();
-                listToAdd = groupToAdd.m_queue.ToList();
-                List<uint> targetList = new List<uint>();
-                targetList = this.m_queue.ToList();
+            var other = (QueueGroup) group;
 
-                foreach (uint element in listToAdd)
+            foreach (var element in other.m_queue)
+            {
+                if (this.NotIn(element) == 1)
                 {
-                    bool exists = false;
-                    IEnumerator enumerator = targetList.GetEnumerator();
-                    enumerator.Reset();
-
-                    while (enumerator.MoveNext())
-                    {
-                        if ((uint)enumerator.Current == element)
-                        {
-                            exists = true;
-                            break;
-                        }
-                    }
-
-                    if (!exists)
-                    {
-                        targetList.Add(element);
-                        this.m_queue.Add(element);
-                    }
+                    this.m_queue.Add(element);
                 }
+            }
 
-                return 1;
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
+            return 1;
         }
 
         public override int Converse(PureGroup group)
